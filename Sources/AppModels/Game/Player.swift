@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Player: Codable, Identifiable, Equatable {
+public struct Player: Codable, Identifiable, Equatable, Sendable {
     enum CodingKeys: CodingKey {
         case user
         case joinedAt
