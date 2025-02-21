@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Intermediate: Identifiable {
+public struct Intermediate: Identifiable {
     var words: [String]
     var timeLimit: Int
     var gridSize: Int

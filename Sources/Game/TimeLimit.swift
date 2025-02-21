@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TimeLimit: Int, CaseIterable {
+public enum TimeLimit: Int, CaseIterable {
     case oneMinute = 60
     case threeMinutes = 180
     case fiveMinutes = 300

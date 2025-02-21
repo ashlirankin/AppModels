@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct FoundWord: Codable, Hashable {
+public struct FoundWord: Codable, Hashable {
     let word: String
     let positions: [SharedGridPosition]
     let colorIndex: Int

@@ -1,6 +1,6 @@
 import Foundation
 
-struct WaitingRoom: Codable, Identifiable, Equatable {
+public struct WaitingRoom: Codable, Identifiable, Equatable {
     let id: String
     let code: String
     let createdAt: Date
@@ -9,7 +9,7 @@ struct WaitingRoom: Codable, Identifiable, Equatable {
     let gameId: String?
     let roomType: RoomType
     
-    enum RoomStatus: String, CaseIterable, Codable, Equatable {
+    public enum RoomStatus: String, CaseIterable, Codable, Equatable {
         case waiting
         case matched
         case gameStarted
@@ -27,7 +27,7 @@ struct WaitingRoom: Codable, Identifiable, Equatable {
         }
     }
     
-    enum RoomType: String, Codable, Equatable {
+    public enum RoomType: String, Codable, Equatable {
         case quickMatch
         case privateRoom
         

@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum GameMode {
+public enum GameMode {
     case singlePlayer
     case multiplayer(MultiplayerGameState)
 }

@@ -1,6 +1,6 @@
 import Foundation
 
-protocol WordSearchGame {
+public protocol WordSearchGame {
     var grid: [[Character]] { get }
     var words: [String] { get }
     var foundWords: Set<String> { get }

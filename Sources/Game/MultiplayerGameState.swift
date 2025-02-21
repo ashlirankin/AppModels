@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-struct MultiplayerGameState: Codable {
+public struct MultiplayerGameState: Codable {
     struct Player: Codable, Identifiable, Equatable {
         let id: UUID
         var name: String
