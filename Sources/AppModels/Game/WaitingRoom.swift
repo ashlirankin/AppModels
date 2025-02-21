@@ -14,15 +14,15 @@ public struct WaitingRoom: Codable, Identifiable, Equatable {
         case matched
         case gameStarted
         
-        func encode(to encoder: any Encoder) throws {
-            let container = encoder.container(keyedBy: CodingKeys.self)
-            var rawValueContainer = encoder.container(keyedBy: FirebaseDataTypes.self)
+        public func encode(to encoder: any Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            var rawValueContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .status)
             try rawValueContainer.encode(rawValue, forKey: .stringValue)
         }
         
-        init(from decoder: any Decoder) throws {
+        public init(from decoder: any Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            var rawValueContainer = try decoder.container(keyedBy: FirebaseDataTypes.self)
+            let rawValueContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .status)
             self = try rawValueContainer.decode(Self.self, forKey: .stringValue)
         }
     }
@@ -31,20 +31,20 @@ public struct WaitingRoom: Codable, Identifiable, Equatable {
         case quickMatch
         case privateRoom
         
-        func encode(to encoder: any Encoder) throws {
-            let container = encoder.container(keyedBy: CodingKeys.self)
-            var rawValueContainer = encoder.container(keyedBy: FirebaseDataTypes.self)
+        public func encode(to encoder: any Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            var rawValueContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .roomType)
             try rawValueContainer.encode(rawValue, forKey: .stringValue)
         }
         
-        init(from decoder: any Decoder) throws {
+        public init(from decoder: any Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            var rawValueContainer = try decoder.container(keyedBy: FirebaseDataTypes.self)
+            let rawValueContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .roomType)
             self = try rawValueContainer.decode(Self.self, forKey: .stringValue)
         }
     }
     
-    func encode(to encoder: any Encoder) throws {
+    public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         var idContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)

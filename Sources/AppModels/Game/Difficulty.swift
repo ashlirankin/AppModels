@@ -37,20 +37,20 @@ public enum Difficulty: String, CaseIterable, Codable {
             }
         }
         
-        var gridSize: Int {
-            let isPhone = UIDevice.current.userInterfaceIdiom == .phone
-            
-            switch self {
-            case .easy:
-                return 8    // 8x8 grid for all devices
-            case .medium:
-                return isPhone ? 9 : 10  // 9x9 for phones, 10x10 for iPads
-            case .hard:
-                return isPhone ? 12 : 16  // 12x12 for phones, 16x16 for iPads
-            }
-        }
+    func gridSize(deviceType: UIUserInterfaceIdiom) -> Int {
+        let isPhone = deviceType == .phone
         
-        var gridDescription: String {
-            return "\(gridSize)×\(gridSize) Grid"
+        switch self {
+        case .easy:
+            return 8    // 8x8 grid for all devices
+        case .medium:
+            return isPhone ? 9 : 10  // 9x9 for phones, 10x10 for iPads
+        case .hard:
+            return isPhone ? 12 : 16  // 12x12 for phones, 16x16 for iPads
         }
     }
+    
+    func gridDescription(deviceType: UIUserInterfaceIdiom) -> String {
+        return "\(gridSize(deviceType: deviceType))×\(String(describing: gridSize)) Grid"
+    }
+}

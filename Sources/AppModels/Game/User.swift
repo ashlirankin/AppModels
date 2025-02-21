@@ -21,7 +21,7 @@ public struct User: Codable, Identifiable, Equatable {
         self.name = name
     }
     
-    func encode(to encoder: any Encoder) throws {
+    public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         var idContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
         try idContainer.encode(id, forKey: .stringValue)
@@ -30,12 +30,12 @@ public struct User: Codable, Identifiable, Equatable {
         try nameContainer.encode(self.name, forKey: .stringValue)
     }
     
-    init(from decoder: any Decoder) throws {
+    public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        var idContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
+        let idContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
         self.id = try idContainer.decode(String.self, forKey: .stringValue)
         
-        var nameContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .name)
+        let nameContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .name)
         self.name = try nameContainer.decode(String.self, forKey: .stringValue)
     }
 }

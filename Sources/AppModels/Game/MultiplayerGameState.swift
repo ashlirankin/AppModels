@@ -64,7 +64,7 @@ public struct MultiplayerGameState: Codable {
     }
     
     mutating func removePlayer(_ playerId: UUID) {
-        players.removeAll { $0.id == playerId }
+        players.removeAll { $0.id == playerId.uuidString }
         if players.isEmpty {
             gameStatus = .finished
         } else if players.count < minPlayers {
