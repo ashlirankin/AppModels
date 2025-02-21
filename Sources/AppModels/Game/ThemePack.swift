@@ -1,6 +1,6 @@
 import Foundation
 
-public struct ThemePack: Sendable, Identifiable, Codable, Sendable {
+public struct ThemePack: Sendable, Identifiable, Codable {
     public let id: UUID
     public let theme: String
     public let easy: [String]
