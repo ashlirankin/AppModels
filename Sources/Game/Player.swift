@@ -1,0 +1,52 @@
+//
+//  Player.swift
+//  AppModels
+//
+//  Created by Ashli Rankin on 2/21/25.
+//
+
+
+import Foundation
+
+struct Player: Codable, Identifiable, Equatable {
+    enum CodingKeys: CodingKey {
+        case user
+        case joinedAt
+        case isHost
+    }
+    
+    let user: User
+    let joinedAt: Date
+    let isHost: Bool
+    
+    var id: String { user.id }
+    
+    init(user: User, joinedAt: Date, isHost: Bool) {
+        self.user = user
+        self.joinedAt = joinedAt
+        self.isHost = isHost
+    }
+    
+    func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        var joinedAtContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .joinedAt)
+        try joinedAtContainer.encode(joinedAt, forKey: .timestampValue)
+        
+        var isHostContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .joinedAt)
+        try isHostContainer.encode(isHost, forKey: .booleanValue)
+       
+        try container.encode(self.user, forKey: .user)
+    }
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.user = try container.decode(User.self, forKey: .user)
+        
+        var joinedAtContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .joinedAt)
+        self.joinedAt = try joinedAtContainer.decode(Date.self, forKey: .timestampValue)
+        
+        var isHostContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .joinedAt)
+        self.isHost = try container.decode(Bool.self, forKey: .isHost)
+    }
+}
