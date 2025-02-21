@@ -12,4 +12,11 @@ public struct Intermediate: Identifiable {
     public var timeLimit: Int
     public var gridSize: Int
     public var id = UUID()
+    
+    public init(words: [String], timeLimit: Int, gridSize: Int, id: UUID = UUID()) {
+        self.words = words
+        self.timeLimit = timeLimit
+        self.gridSize = gridSize
+        self.id = id
+    }
 }

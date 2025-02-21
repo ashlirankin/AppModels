@@ -9,6 +9,16 @@ public struct WaitingRoom: Codable, Identifiable, Equatable, Sendable {
     public let gameId: String?
     public let roomType: RoomType
     
+    public init(id: String, code: String, createdAt: Date, players: [Player], status: RoomStatus, gameId: String?, roomType: RoomType) {
+        self.id = id
+        self.code = code
+        self.createdAt = createdAt
+        self.players = players
+        self.status = status
+        self.gameId = gameId
+        self.roomType = roomType
+    }
+    
     public enum RoomStatus: String, CaseIterable, Codable, Equatable, Sendable {
         case waiting
         case matched

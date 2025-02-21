@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 public struct MultiplayerGameState: Codable {
-    enum GameStatus: String, Codable {
+    public enum GameStatus: String, Codable {
         case waiting     // Waiting for players to join
         case starting    // Game is about to start (countdown)
         case playing     // Game is in progress
@@ -10,29 +10,18 @@ public struct MultiplayerGameState: Codable {
         case finished   // Game has ended
     }
     
-    var players: [Player]
-    var currentTurn: UUID
-    var gameStatus: GameStatus
-    var timeRemaining: Int
-    var maxPlayers: Int
-    var minPlayers: Int
-    var gameStartTime: Date?
-    var gameDuration: Int // in seconds
-    var hostId: UUID
-    var roomCode: String
+    public var players: [Player]
+    public var currentTurn: UUID
+    public var gameStatus: GameStatus
+    public var timeRemaining: Int
+    public var maxPlayers: Int
+    public var minPlayers: Int
+    public var gameStartTime: Date?
+    public var gameDuration: Int // in seconds
+    public var hostId: UUID
+    public var roomCode: String
     
-    init(
-        players: [Player] = [],
-        currentTurn: UUID = UUID(),
-        gameStatus: GameStatus = .waiting,
-        timeRemaining: Int = 180,
-        maxPlayers: Int = 4,
-        minPlayers: Int = 2,
-        gameStartTime: Date? = nil,
-        gameDuration: Int = 180,
-        hostId: UUID = UUID(),
-        roomCode: String = ""
-    ) {
+    public init(players: [Player] = [], currentTurn: UUID = UUID(),  gameStatus: GameStatus = .waiting, timeRemaining: Int = 180, maxPlayers: Int = 4, minPlayers: Int = 2, gameStartTime: Date? = nil, gameDuration: Int = 180, hostId: UUID = UUID(), roomCode: String = "") {
         self.players = players
         self.currentTurn = currentTurn
         self.gameStatus = gameStatus

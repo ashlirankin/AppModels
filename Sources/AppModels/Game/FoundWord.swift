@@ -27,4 +27,10 @@ public struct FoundWord: Codable, Hashable, Sendable {
         .yellow,
         .mint
     ]
+    
+    public init(word: String, positions: [SharedGridPosition], colorIndex: Int) {
+        self.word = word
+        self.positions = positions
+        self.colorIndex = colorIndex
+    }
 }
