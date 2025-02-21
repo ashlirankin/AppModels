@@ -1,13 +1,13 @@
 import Foundation
 
 public struct WaitingRoom: Codable, Identifiable, Equatable {
-    let id: String
-    let code: String
-    let createdAt: Date
-    let players: [Player]
-    let status: RoomStatus
-    let gameId: String?
-    let roomType: RoomType
+    public let id: String
+    public let code: String
+    public let createdAt: Date
+    public let players: [Player]
+    public let status: RoomStatus
+    public let gameId: String?
+    public let roomType: RoomType
     
     public enum RoomStatus: String, CaseIterable, Codable, Equatable {
         case waiting

@@ -12,7 +12,7 @@ public enum TimeLimit: Int, CaseIterable {
     case threeMinutes = 180
     case fiveMinutes = 300
     
-    var title: String {
+    public var title: String {
         switch self {
         case .oneMinute: return "1 Minute"
         case .threeMinutes: return "3 Minutes"
@@ -20,7 +20,7 @@ public enum TimeLimit: Int, CaseIterable {
         }
     }
     
-    var description: String {
+    public var description: String {
         switch self {
         case .oneMinute: return "Quick challenge"
         case .threeMinutes: return "Balanced gameplay"
@@ -28,7 +28,7 @@ public enum TimeLimit: Int, CaseIterable {
         }
     }
     
-    var icon: String {
+    public var icon: String {
         switch self {
         case .oneMinute: return "timer"
         case .threeMinutes: return "timer.circle"

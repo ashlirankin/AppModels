@@ -15,13 +15,13 @@ public struct Player: Codable, Identifiable, Equatable {
         case isHost
     }
     
-    let user: User
-    let joinedAt: Date
-    let isHost: Bool
+    public let user: User
+    public let joinedAt: Date
+    public let isHost: Bool
     
-    var id: String { user.id }
+    public var id: String { user.id }
     
-    init(user: User, joinedAt: Date, isHost: Bool) {
+    public init(user: User, joinedAt: Date, isHost: Bool) {
         self.user = user
         self.joinedAt = joinedAt
         self.isHost = isHost

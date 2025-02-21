@@ -8,8 +8,8 @@
 import SwiftUI
 
 public struct Intermediate: Identifiable {
-    var words: [String]
-    var timeLimit: Int
-    var gridSize: Int
-    var id = UUID()
+    public var words: [String]
+    public var timeLimit: Int
+    public var gridSize: Int
+    public var id = UUID()
 }

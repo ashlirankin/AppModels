@@ -13,10 +13,10 @@ public struct User: Codable, Identifiable, Equatable {
         case name
     }
     
-    let id: String
-    let name: String
+    public let id: String
+    public let name: String
     
-    init (id: String, name: String) {
+    public init (id: String, name: String) {
         self.id = id
         self.name = name
     }

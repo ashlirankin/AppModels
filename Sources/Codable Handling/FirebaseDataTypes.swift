@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum FirebaseDataTypes: String, CodingKey {
+public enum FirebaseDataTypes: String, CodingKey {
     case stringValue
     case integerValue
     case nullValue
@@ -21,6 +21,6 @@ enum FirebaseDataTypes: String, CodingKey {
 }
 
 
-enum SupplementaryCodingKeys: String, CodingKey {
+public enum SupplementaryCodingKeys: String, CodingKey {
     case values
 }

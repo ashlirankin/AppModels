@@ -9,15 +9,15 @@
 import SwiftUI
 
 public struct FoundWord: Codable, Hashable {
-    let word: String
-    let positions: [SharedGridPosition]
-    let colorIndex: Int
+    public let word: String
+    public let positions: [SharedGridPosition]
+    public let colorIndex: Int
     
-    var color: Color {
+    public var color: Color {
         FoundWord.colors[colorIndex % FoundWord.colors.count]
     }
     
-    static let colors: [Color] = [
+    public static let colors: [Color] = [
         .green,
         .blue,
         .purple,

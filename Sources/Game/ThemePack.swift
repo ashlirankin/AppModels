@@ -1,13 +1,13 @@
 import Foundation
 
 public struct ThemePack: Sendable, Identifiable, Codable {
-    let id: UUID
-    let theme: String
-    let easy: [String]
-    let medium: [String]
-    let hard: [String]
+    public let id: UUID
+    public let theme: String
+    public let easy: [String]
+    public let medium: [String]
+    public let hard: [String]
     
-    init(theme: String, easy: [String], medium: [String], hard: [String]) {
+    public init(theme: String, easy: [String], medium: [String], hard: [String]) {
         self.id = UUID()
         self.theme = theme
         self.easy = easy

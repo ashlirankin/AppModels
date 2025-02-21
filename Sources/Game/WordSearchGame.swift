@@ -1,11 +1,11 @@
 import Foundation
 
 public protocol WordSearchGame {
-    var grid: [[Character]] { get }
-    var words: [String] { get }
-    var foundWords: Set<String> { get }
-    var foundWordPositions: [FoundWord] { get }
+    public var grid: [[Character]] { get }
+    public var words: [String] { get }
+    public var foundWords: Set<String> { get }
+    public var foundWordPositions: [FoundWord] { get }
     
-    func positionsForWord(_ word: String) -> [SharedGridPosition]?
-    func checkWord(_ word: String, positions: [(Int, Int)]) -> Bool
+    public func positionsForWord(_ word: String) -> [SharedGridPosition]?
+    public func checkWord(_ word: String, positions: [(Int, Int)]) -> Bool
 }

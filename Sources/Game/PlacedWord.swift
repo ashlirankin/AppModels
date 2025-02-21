@@ -2,8 +2,8 @@ import Foundation
 import SwiftUI
 
 public struct PlacedWord {
-    let word: String
-    let startPosition: SharedGridPosition
-    let direction: (Int, Int)
-    let positions: [SharedGridPosition]
+    public let word: String
+    public let startPosition: SharedGridPosition
+    public let direction: (Int, Int)
+    public let positions: [SharedGridPosition]
 }

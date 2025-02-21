@@ -2,58 +2,6 @@ import Foundation
 import SwiftUI
 
 public struct MultiplayerGameState: Codable {
-    struct Player: Codable, Identifiable, Equatable {
-        let id: UUID
-        var name: String
-        var score: Int
-        var foundWords: Set<FoundWord>
-        var currentSelection: [SharedGridPosition]
-        var currentWord: String
-        var color: Color
-        
-        static func == (lhs: Player, rhs: Player) -> Bool {
-            lhs.id == rhs.id
-        }
-        
-        enum CodingKeys: String, CodingKey {
-            case id, name, score, foundWords, currentSelection, currentWord
-            // Color will be handled separately since it's not Codable
-        }
-        
-        init(id: UUID = UUID(), name: String, score: Int = 0, foundWords: Set<FoundWord> = [], currentSelection: [SharedGridPosition] = [], currentWord: String = "", color: Color) {
-            self.id = id
-            self.name = name
-            self.score = score
-            self.foundWords = foundWords
-            self.currentSelection = currentSelection
-            self.currentWord = currentWord
-            self.color = color
-        }
-        
-        init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            id = try container.decode(UUID.self, forKey: .id)
-            name = try container.decode(String.self, forKey: .name)
-            score = try container.decode(Int.self, forKey: .score)
-            foundWords = try container.decode(Set<FoundWord>.self, forKey: .foundWords)
-            currentSelection = try container.decode([SharedGridPosition].self, forKey: .currentSelection)
-            currentWord = try container.decode(String.self, forKey: .currentWord)
-            // Default color will be set by the game
-            color = .blue
-        }
-        
-        func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(id, forKey: .id)
-            try container.encode(name, forKey: .name)
-            try container.encode(score, forKey: .score)
-            try container.encode(foundWords, forKey: .foundWords)
-            try container.encode(currentSelection, forKey: .currentSelection)
-            try container.encode(currentWord, forKey: .currentWord)
-            // Color is not encoded since it's not Codable
-        }
-    }
-    
     enum GameStatus: String, Codable {
         case waiting     // Waiting for players to join
         case starting    // Game is about to start (countdown)
