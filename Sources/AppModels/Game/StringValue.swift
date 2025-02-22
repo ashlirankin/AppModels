@@ -21,13 +21,11 @@ public struct StringValue: Codable, Sendable {
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let valueContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .value)
-        self.value = try valueContainer.decode(String.self, forKey: .stringValue)
+        self.value = try container.decode(String.self, forKey: .value)
     }
     
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        var valueContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .value)
         try valueContainer.encode(value, forKey: .stringValue)
     }
 }
