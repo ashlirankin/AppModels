@@ -9,15 +9,16 @@
 import Foundation
 
 public enum FirebaseDataTypes: String, CodingKey {
-    case stringValue
-    case integerValue
-    case nullValue
-    case timestampValue
-    case referenceValue
-    case booleanValue
-    case arrayValue
-    case mapValue
-    case geoPointValue
+    case stringValue = "stringValue"
+    case integerValue = "integerValue"
+    case doubleValue = "doubleValue"
+    case nullValue = "nullValue"
+    case timestampValue = "timestampValue"
+    case referenceValue = "referenceValue"
+    case booleanValue = "booleanValue"
+    case arrayValue = "arrayValue"
+    case mapValue = "mapValue"
+    case geoPointValue = "geopointValue"
 }
 
 
