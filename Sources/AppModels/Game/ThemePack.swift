@@ -12,11 +12,11 @@ public struct ThemePack: Sendable, Identifiable, Codable {
     
     public let id: UUID
     public let theme: String
-    public let easy: [String]
-    public let medium: [String]
-    public let hard: [String]
+    public let easy: [Word]
+    public let medium: [Word]
+    public let hard: [Word]
     
-    public init(theme: String, easy: [String], medium: [String], hard: [String]) {
+    public init(theme: String, easy: [Word], medium: [Word], hard: [Word]) {
         self.id = UUID()
         self.theme = theme
         self.easy = easy
@@ -36,20 +36,17 @@ public struct ThemePack: Sendable, Identifiable, Codable {
         var easyContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .easy)
         var arrayContainer = try easyContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
         var valuesContainer = try arrayContainer.nestedUnkeyedContainer(forKey: .values)
-        let stringValueContainer = try valuesContainer.nestedContainer(keyedBy: FirebaseDataTypes.self)
-        self.easy = try stringValueContainer.decode([String].self, forKey: .stringValue)
+        self.easy = try valuesContainer.decode([Word].self)
        
         var mediumContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .medium)
         var mediumArrayContainer = try mediumContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
         var mediumValuesContainer = try mediumArrayContainer.nestedUnkeyedContainer(forKey: .values)
-        let mediumStringValueContainer = try mediumValuesContainer.nestedContainer(keyedBy: FirebaseDataTypes.self)
-        self.medium = try mediumStringValueContainer.decode([String].self, forKey: .stringValue)
+        self.medium = try mediumValuesContainer.decode([Word].self)
        
         var hardContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .hard)
         var hardArrayContainer = try hardContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
         var hardValuesContainer = try hardArrayContainer.nestedUnkeyedContainer(forKey: .values)
-        let hardStringValueContainer = try hardValuesContainer.nestedContainer(keyedBy: FirebaseDataTypes.self)
-        self.hard = try hardStringValueContainer.decode([String].self, forKey: .stringValue)
+        self.hard = try hardValuesContainer.decode([Word].self)
     }
     
     public func encode(to encoder: any Encoder) throws {

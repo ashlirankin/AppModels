@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Word: Codable {
+public struct Word: Codable, Sendable {
     public let value: String
     
     enum CodingKeys: CodingKey {
