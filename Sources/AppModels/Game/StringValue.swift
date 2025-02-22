@@ -1,5 +1,5 @@
 //
-//  Word.swift
+//  StringValue.swift
 //  AppModels
 //
 //  Created by Ashli Rankin on 2/22/25.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Word: Codable, Sendable {
+public struct StringValue: Codable, Sendable {
     public let value: String
     
     enum CodingKeys: CodingKey {
