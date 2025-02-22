@@ -12,11 +12,11 @@ public struct ThemePack: Sendable, Identifiable, Codable {
     
     public let id: UUID
     public let theme: StringValue
-    public let easy: [String]
-    public let medium: [String]
-    public let hard: [String]
+    public let easy: [StringValue]
+    public let medium: [StringValue]
+    public let hard: [StringValue]
     
-    public init(theme: StringValue, easy: [String], medium: [String], hard: [String]) {
+    public init(theme: StringValue, easy: [StringValue], medium: [StringValue], hard: [StringValue]) {
         self.id = UUID()
         self.theme = theme
         self.easy = easy
@@ -35,15 +35,15 @@ public struct ThemePack: Sendable, Identifiable, Codable {
         
         var easyContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .easy)
         var arrayContainer = try easyContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
-        self.easy = try arrayContainer.decode([String].self, forKey: .values)
+        self.easy = try arrayContainer.decode([StringValue].self, forKey: .values)
        
         var mediumContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .medium)
         var mediumArrayContainer = try mediumContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
-        self.medium = try mediumArrayContainer.decode([String].self, forKey: .values)
+        self.medium = try mediumArrayContainer.decode([StringValue].self, forKey: .values)
        
         var hardContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .hard)
         var hardArrayContainer = try hardContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
-        self.hard = try hardArrayContainer.decode([String].self, forKey: .values)
+        self.hard = try hardArrayContainer.decode([StringValue].self, forKey: .values)
     }
     
     public func encode(to encoder: any Encoder) throws {
