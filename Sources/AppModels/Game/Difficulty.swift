@@ -13,7 +13,7 @@ public enum Difficulty: String, CaseIterable, Codable {
         case medium = "Medium"
         case hard = "Hard"
         
-        var color: Color {
+        public var color: Color {
             switch self {
             case .easy: return .green
             case .medium: return .orange
@@ -21,7 +21,7 @@ public enum Difficulty: String, CaseIterable, Codable {
             }
         }
         
-        var icon: String {
+        public var icon: String {
             switch self {
             case .easy: return "star"
             case .medium: return "star.fill"
@@ -29,7 +29,7 @@ public enum Difficulty: String, CaseIterable, Codable {
             }
         }
         
-        var description: String {
+        public var description: String {
             switch self {
             case .easy: return "Perfect for beginners"
             case .medium: return "A balanced challenge"
@@ -37,7 +37,7 @@ public enum Difficulty: String, CaseIterable, Codable {
             }
         }
         
-    func gridSize(deviceType: UIUserInterfaceIdiom) -> Int {
+    public func gridSize(deviceType: UIUserInterfaceIdiom) -> Int {
         let isPhone = deviceType == .phone
         
         switch self {
@@ -50,7 +50,7 @@ public enum Difficulty: String, CaseIterable, Codable {
         }
     }
     
-    func gridDescription(deviceType: UIUserInterfaceIdiom) -> String {
+    public func gridDescription(deviceType: UIUserInterfaceIdiom) -> String {
         return "\(gridSize(deviceType: deviceType))×\(String(describing: gridSize)) Grid"
     }
 }

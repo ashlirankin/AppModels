@@ -34,25 +34,25 @@ public struct MultiplayerGameState: Codable {
         self.roomCode = roomCode
     }
     
-    var canStart: Bool {
+    public var canStart: Bool {
         players.count >= minPlayers && gameStatus == .waiting
     }
     
-    var canJoin: Bool {
+    public var canJoin: Bool {
         players.count < maxPlayers && gameStatus == .waiting
     }
     
-    var isFinished: Bool {
+    public var isFinished: Bool {
         gameStatus == .finished || timeRemaining <= 0
     }
     
-    mutating func addPlayer(_ player: Player) -> Bool {
+    public mutating func addPlayer(_ player: Player) -> Bool {
         guard canJoin else { return false }
         players.append(player)
         return true
     }
     
-    mutating func removePlayer(_ playerId: UUID) {
+    public mutating func removePlayer(_ playerId: UUID) {
         players.removeAll { $0.id == playerId.uuidString }
         if players.isEmpty {
             gameStatus = .finished
@@ -61,14 +61,14 @@ public struct MultiplayerGameState: Codable {
         }
     }
     
-    mutating func startGame() {
+    public mutating func startGame() {
         guard canStart else { return }
         gameStatus = .playing
         gameStartTime = Date()
         timeRemaining = gameDuration
     }
     
-    mutating func updateTimeRemaining() {
+    public mutating func updateTimeRemaining() {
         guard gameStatus == .playing,
               let startTime = gameStartTime else { return }
         
