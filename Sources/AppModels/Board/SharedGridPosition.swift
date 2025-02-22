@@ -9,6 +9,11 @@ public struct SharedGridPosition: Equatable, Hashable, Codable, Sendable {
     public let row: Int
     public let col: Int
     
+    public init(row: Int, col: Int) {
+        self.row = row
+        self.col = col
+    }
+    
     public static func from(tuple: (Int, Int)) -> SharedGridPosition {
         SharedGridPosition(row: tuple.0, col: tuple.1)
     }
