@@ -15,6 +15,10 @@ public struct Word: Codable {
         case value
     }
     
+    public init (value: String) {
+        self.value = value
+    }
+    
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let valueContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .value)
