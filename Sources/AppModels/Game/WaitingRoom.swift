@@ -1,23 +1,6 @@
 import Foundation
 
 public struct WaitingRoom: Codable, Identifiable, Equatable, Sendable {
-    public let id: String
-    public let code: String
-    public let createdAt: Date
-    public let players: [Player]
-    public let status: RoomStatus
-    public let gameId: String?
-    public let roomType: RoomType
-    
-    public init(id: String, code: String, createdAt: Date, players: [Player], status: RoomStatus, gameId: String?, roomType: RoomType) {
-        self.id = id
-        self.code = code
-        self.createdAt = createdAt
-        self.players = players
-        self.status = status
-        self.gameId = gameId
-        self.roomType = roomType
-    }
     
     public enum RoomStatus: String, CaseIterable, Codable, Equatable, Sendable {
         case waiting
@@ -54,30 +37,6 @@ public struct WaitingRoom: Codable, Identifiable, Equatable, Sendable {
         }
     }
     
-    public func encode(to encoder: any Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        
-        var idContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
-        try idContainer.encode(id, forKey: .stringValue)
-       
-        var codeContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .code)
-        try codeContainer.encode(code, forKey: .stringValue)
-        
-        var createdAtContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .code)
-        try createdAtContainer.encode(createdAt, forKey: .timestampValue)
-
-        var playersContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .players)
-        var arrayContainer = playersContainer.nestedUnkeyedContainer(forKey: .arrayValue)
-        try arrayContainer.encode(players)
-        
-        try container.encode(status, forKey: .status)
-        
-        var gameIdContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
-        try gameIdContainer.encodeIfPresent(gameId, forKey: .stringValue)
-        
-        try container.encode(roomType, forKey: .roomType)
-    }
-    
     enum CodingKeys: CodingKey {
         case id
         case code
@@ -86,6 +45,24 @@ public struct WaitingRoom: Codable, Identifiable, Equatable, Sendable {
         case status
         case gameId
         case roomType
+    }
+    
+    public let id: String
+    public let code: String
+    public let createdAt: Date
+    public let players: [Player]
+    public let status: RoomStatus
+    public let gameId: String?
+    public let roomType: RoomType
+    
+    public init(id: String, code: String, createdAt: Date, players: [Player], status: RoomStatus, gameId: String?, roomType: RoomType) {
+        self.id = id
+        self.code = code
+        self.createdAt = createdAt
+        self.players = players
+        self.status = status
+        self.gameId = gameId
+        self.roomType = roomType
     }
     
     public init(from decoder: any Decoder) throws {
@@ -110,5 +87,29 @@ public struct WaitingRoom: Codable, Identifiable, Equatable, Sendable {
        
         self.status = try container.decode(WaitingRoom.RoomStatus.self, forKey: .status)
         self.roomType = try container.decode(WaitingRoom.RoomType.self, forKey: .roomType)
+    }
+    
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        var idContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
+        try idContainer.encode(id, forKey: .stringValue)
+       
+        var codeContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .code)
+        try codeContainer.encode(code, forKey: .stringValue)
+        
+        var createdAtContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .code)
+        try createdAtContainer.encode(createdAt, forKey: .timestampValue)
+
+        var playersContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .players)
+        var arrayContainer = playersContainer.nestedUnkeyedContainer(forKey: .arrayValue)
+        try arrayContainer.encode(players)
+        
+        try container.encode(status, forKey: .status)
+        
+        var gameIdContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
+        try gameIdContainer.encodeIfPresent(gameId, forKey: .stringValue)
+        
+        try container.encode(roomType, forKey: .roomType)
     }
 }

@@ -21,15 +21,6 @@ public struct User: Codable, Identifiable, Equatable, Sendable {
         self.name = name
     }
     
-    public func encode(to encoder: any Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        var idContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
-        try idContainer.encode(id, forKey: .stringValue)
-        
-        var nameContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .name)
-        try nameContainer.encode(self.name, forKey: .stringValue)
-    }
-    
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let idContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
@@ -37,5 +28,14 @@ public struct User: Codable, Identifiable, Equatable, Sendable {
         
         let nameContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .name)
         self.name = try nameContainer.decode(String.self, forKey: .stringValue)
+    }
+    
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        var idContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
+        try idContainer.encode(id, forKey: .stringValue)
+        
+        var nameContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .name)
+        try nameContainer.encode(self.name, forKey: .stringValue)
     }
 }
