@@ -77,4 +77,38 @@ public struct WaitingRoom: Codable, Identifiable, Equatable, Sendable {
         
         try container.encode(roomType, forKey: .roomType)
     }
+    
+    enum CodingKeys: CodingKey {
+        case id
+        case code
+        case createdAt
+        case players
+        case status
+        case gameId
+        case roomType
+    }
+    
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        var idContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
+        self.id = try idContainer.decode(String.self, forKey: .stringValue)
+        
+        var codeContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .code)
+        self.code = try codeContainer.decode(String.self, forKey: .stringValue)
+       
+        var createdAtContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .createdAt)
+        self.createdAt = try createdAtContainer.decode(Date.self, forKey: .timestampValue)
+       
+        var playersContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .players)
+        var arrayContainer = try playersContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
+        var valuesContainer = try arrayContainer.nestedUnkeyedContainer(forKey: .values)
+        self.players = try valuesContainer.decode([Player].self)
+        
+        var gameIdContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .gameId)
+        self.gameId = try gameIdContainer.decode(String.self, forKey: .stringValue)
+       
+        self.status = try container.decode(WaitingRoom.RoomStatus.self, forKey: .status)
+        self.roomType = try container.decode(WaitingRoom.RoomType.self, forKey: .roomType)
+    }
 }
