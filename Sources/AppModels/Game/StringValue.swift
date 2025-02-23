@@ -9,11 +9,12 @@
 import Foundation
 
 public struct StringValue: Codable, Sendable {
-    public let value: String
     
     enum CodingKeys: CodingKey {
         case value
     }
+    
+    public let value: String
     
     public init (value: String) {
         self.value = value
