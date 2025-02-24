@@ -30,8 +30,7 @@ public struct ThemePack: Sendable, Identifiable, Codable {
         var idContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
         self.id = try idContainer.decode(UUID.self, forKey: .stringValue)
         
-        var themeContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .theme)
-        self.theme = try themeContainer.decode(StringValue.self, forKey: .stringValue)
+        self.theme = try container.decode(StringValue.self, forKey: .theme)
         
         var easyContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .easy)
         var arrayContainer = try easyContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
@@ -52,8 +51,7 @@ public struct ThemePack: Sendable, Identifiable, Codable {
         var idContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
         try idContainer.encode(id, forKey: .stringValue)
         
-        var themeContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .theme)
-        try themeContainer.encode(theme, forKey: .stringValue)
+        try container.encode(theme, forKey: .theme)
        
         var easyContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .easy)
         var arrayEasyContainer = easyContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
