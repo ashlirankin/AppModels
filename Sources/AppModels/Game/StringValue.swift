@@ -21,8 +21,9 @@ public struct StringValue: Codable, Sendable {
     }
     
     public init(from decoder: any Decoder) throws {
-        let container = try decoder.container(keyedBy: FirebaseDataTypes.self)
-        self.value = try container.decode(String.self, forKey: .stringValue)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        var stringValueContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .value)
+        self.value = try stringValueContainer.decode(String.self, forKey: .stringValue)
     }
     
     public func encode(to encoder: any Encoder) throws {
