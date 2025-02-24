@@ -8,15 +8,14 @@ public struct WaitingRoom: Codable, Identifiable, Equatable, Sendable {
         case gameStarted
         
         public func encode(to encoder: any Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            var rawValueContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .status)
-            try rawValueContainer.encode(rawValue, forKey: .stringValue)
+            var container = encoder.container(keyedBy: FirebaseDataTypes.self)
+            try container.encode(rawValue, forKey: .stringValue)
         }
         
         public init(from decoder: any Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            let rawValueContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .status)
-            self = try rawValueContainer.decode(Self.self, forKey: .stringValue)
+            let container = try decoder.container(keyedBy: FirebaseDataTypes.self)
+            let rawValue = try container.decode(RawValue.self, forKey: .stringValue)
+            self = .init(rawValue: rawValue)!
         }
     }
     
@@ -25,15 +24,14 @@ public struct WaitingRoom: Codable, Identifiable, Equatable, Sendable {
         case privateRoom
         
         public func encode(to encoder: any Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            var rawValueContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .roomType)
-            try rawValueContainer.encode(rawValue, forKey: .stringValue)
+            var container = encoder.container(keyedBy: FirebaseDataTypes.self)
+            try container.encode(rawValue, forKey: .stringValue)
         }
         
         public init(from decoder: any Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            let rawValueContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .roomType)
-            self = try rawValueContainer.decode(Self.self, forKey: .stringValue)
+            let container = try decoder.container(keyedBy: FirebaseDataTypes.self)
+            let rawValue = try container.decode(RawValue.self, forKey: .stringValue)
+            self = .init(rawValue: rawValue)!
         }
     }
     
@@ -98,11 +96,12 @@ public struct WaitingRoom: Codable, Identifiable, Equatable, Sendable {
         var codeContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .code)
         try codeContainer.encode(code, forKey: .stringValue)
         
-        var createdAtContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .code)
+        var createdAtContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .createdAt)
         try createdAtContainer.encode(createdAt, forKey: .timestampValue)
 
         var playersContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .players)
-        var arrayContainer = playersContainer.nestedUnkeyedContainer(forKey: .arrayValue)
+        var valuesContainer = playersContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
+        var arrayContainer = valuesContainer.nestedUnkeyedContainer(forKey: .values)
         try arrayContainer.encode(players)
         
         try container.encode(status, forKey: .status)

@@ -30,3 +30,4 @@ public struct StringValue: Codable, Sendable {
         try container.encode(value, forKey: .stringValue)
     }
 }
+
