@@ -4,11 +4,13 @@ public enum RoomStatus: String, CaseIterable, Codable, Equatable, Sendable {
     case waiting
     case matched
     case gameStarted
+    case none
 }
 
 public enum RoomType: String, Codable, Equatable, Sendable {
     case quickMatch
     case privateRoom
+    case none
 }
 
 public struct WaitingRoom: Codable, Identifiable, Equatable, Sendable {
@@ -27,11 +29,11 @@ public struct WaitingRoom: Codable, Identifiable, Equatable, Sendable {
     public let code: String
     public let createdAt: Date
     public let players: [Player]
-    public let status: String
+    public let status: RoomStatus
     public let gameId: String?
-    public let roomType: String
+    public let roomType: RoomType
     
-    public init(id: String, code: String, createdAt: Date, players: [Player], status: String, gameId: String?, roomType: String) {
+    public init(id: String, code: String, createdAt: Date, players: [Player], status: RoomStatus, gameId: String?, roomType: RoomType) {
         self.id = id
         self.code = code
         self.createdAt = createdAt
@@ -51,8 +53,12 @@ public struct WaitingRoom: Codable, Identifiable, Equatable, Sendable {
         self.id = try container.decode(FirebaseValue<String>.self, forKey: .id).value
         self.code = try container.decode(FirebaseValue<String>.self, forKey: .code).value
         self.createdAt = try container.decode(FirebaseValue<Date>.self, forKey: .createdAt).value
-        self.status = try container.decode(FirebaseValue<String>.self, forKey: .status).value
-        self.roomType = try container.decode(FirebaseValue<String>.self, forKey: .roomType).value
+        
+        let statusString = try container.decode(FirebaseValue<String>.self, forKey: .status).value
+        self.status = RoomStatus(rawValue: statusString) ?? RoomStatus.none
+        
+        let roomTypeString = try container.decode(FirebaseValue<String>.self, forKey: .roomType).value
+        self.roomType = RoomType(rawValue: roomTypeString) ?? RoomType.none
         
         if let gameIdPresent = try? container.decodeIfPresent(FirebaseValue<String>.self, forKey: .gameId)?.value {
             self.gameId = gameIdPresent
@@ -67,8 +73,8 @@ public struct WaitingRoom: Codable, Identifiable, Equatable, Sendable {
         try container.encode(FirebaseValue(value: id), forKey: .id)
         try container.encode(FirebaseValue(value: code), forKey: .code)
         try container.encode(FirebaseValue(value: createdAt), forKey: .createdAt)
-        try container.encode(FirebaseValue(value: status), forKey: .status)
-        try container.encode(FirebaseValue(value: roomType), forKey: .roomType)
+        try container.encode(FirebaseValue(value: status.rawValue), forKey: .status)
+        try container.encode(FirebaseValue(value: roomType.rawValue), forKey: .roomType)
        
         var playersContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .players)
         var valuesContainer = playersContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
