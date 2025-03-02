@@ -37,7 +37,7 @@ public struct FirebaseValue<T: FirebaseCodable>: Sendable, Codable, Equatable {
     /// - Throws: An error if encoding fails.
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: FirebaseDataTypes.self)
-        try container.encode(value, forKey: T.dataType)
+        try container.encode(value, forKey: T.codingKey)
     }
     
     /// Creates a new instance by decoding from the given decoder.
@@ -45,7 +45,7 @@ public struct FirebaseValue<T: FirebaseCodable>: Sendable, Codable, Equatable {
     /// - Throws: An error if decoding fails.
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: FirebaseDataTypes.self)
-        self.value = try container.decode(T.type, forKey: T.dataType)
+        self.value = try container.decode(T.type, forKey: T.codingKey)
     }
 }
 
@@ -57,7 +57,7 @@ public struct FirebaseValue<T: FirebaseCodable>: Sendable, Codable, Equatable {
 /// - Their concrete type for proper type inference during decoding
 public protocol FirebaseCodable: Sendable, Codable, Equatable {
     /// The Firebase data type that this value should be encoded/decoded as.
-    static var dataType: FirebaseDataTypes { get }
+    static var codingKey: FirebaseDataTypes { get }
     
     /// The concrete type of the value, used for proper type inference during decoding.
     static var type: Self.Type { get }
