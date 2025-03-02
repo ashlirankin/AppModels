@@ -42,11 +42,29 @@ public struct PlacedWord: Codable, Sendable {
 }
 
 public struct Direction: Codable, Sendable {
+    
+    enum CodingKeys: CodingKey {
+        case x
+        case y
+    }
+    
     public let x: Int
     public let y: Int
     
     public init(x: Int, y: Int) {
         self.x = x
         self.y = y
+    }
+    
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.x = try container.decode(FirebaseValue<Int>.self, forKey: .x).value
+        self.y = try container.decode(FirebaseValue<Int>.self, forKey: .y).value
+    }
+    
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(FirebaseValue(value: x), forKey: .x)
+        try container.encode(FirebaseValue(value: y), forKey: .y)
     }
 }

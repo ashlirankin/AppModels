@@ -28,24 +28,18 @@ public struct FoundWord: Codable, Hashable, Sendable {
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let workContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .word)
-        self.word = try workContainer.decode(String.self, forKey: .stringValue)
-        
-        let colorIndexContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .colorIndex)
-        self.colorIndex = try colorIndexContainer.decode(Int.self, forKey: .integerValue)
+       
+        self.word = try container.decode(FirebaseValue<String>.self, forKey: .word).value
+        self.colorIndex = try container.decode(FirebaseValue<Int>.self, forKey: .colorIndex).value
         
         self.positions = try container.decode([SharedGridPosition].self, forKey: .positions)
     }
     
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        
-        var wordContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .word)
-        try wordContainer.encode(word, forKey: .stringValue)
-        
-        var colorIndexContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .colorIndex)
-        try colorIndexContainer.encode(colorIndex, forKey: .integerValue)
-        
+    
+        try container.encode(FirebaseValue(value: word), forKey: .word)
+        try container.encode(FirebaseValue(value: colorIndex), forKey: .colorIndex)
         try container.encode(self.positions, forKey: .positions)
     }
 }

@@ -11,12 +11,12 @@ public struct ThemePack: Sendable, Identifiable, Codable {
     }
     
     public let id: UUID
-    public let theme: StringValue
-    public let easy: [StringValue]
-    public let medium: [StringValue]
-    public let hard: [StringValue]
+    public let theme: String
+    public let easy: [String]
+    public let medium: [String]
+    public let hard: [String]
     
-    public init(theme: StringValue, easy: [StringValue], medium: [StringValue], hard: [StringValue]) {
+    public init(theme: String, easy: [String], medium: [String], hard: [String]) {
         self.id = UUID()
         self.theme = theme
         self.easy = easy
@@ -26,44 +26,45 @@ public struct ThemePack: Sendable, Identifiable, Codable {
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+        self.id = try container.decode(FirebaseValue<UUID>.self, forKey: .id).value
+        self.theme = try container.decode(FirebaseValue<String>.self, forKey: .theme).value
         
-        var idContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
-        self.id = try idContainer.decode(UUID.self, forKey: .stringValue)
-        
-        self.theme = try container.decode(StringValue.self, forKey: .theme)
-        
-        var easyContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .easy)
-        var arrayContainer = try easyContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
-        self.easy = try arrayContainer.decode([StringValue].self, forKey: .values)
+        let easyContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .easy)
+        let arrayContainer = try easyContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
+        self.easy = try arrayContainer.decode([FirebaseValue<String>].self, forKey: .values).map(\.value)
        
-        var mediumContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .medium)
-        var mediumArrayContainer = try mediumContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
-        self.medium = try mediumArrayContainer.decode([StringValue].self, forKey: .values)
+        let mediumContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .medium)
+        let mediumArrayContainer = try mediumContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
+        self.medium = try mediumArrayContainer.decode([FirebaseValue<String>].self, forKey: .values).map(\.value)
        
-        var hardContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .hard)
-        var hardArrayContainer = try hardContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
-        self.hard = try hardArrayContainer.decode([StringValue].self, forKey: .values)
+        let hardContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .hard)
+        let hardArrayContainer = try hardContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
+        self.hard = try hardArrayContainer.decode([FirebaseValue<String>].self, forKey: .values).map(\.value)
     }
     
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
-        var idContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
-        try idContainer.encode(id, forKey: .stringValue)
-        
-        try container.encode(theme, forKey: .theme)
+        try container.encode(FirebaseValue(value: id), forKey: .id)
+        try container.encode(FirebaseValue(value: theme), forKey: .theme)
        
         var easyContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .easy)
         var arrayEasyContainer = easyContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
-        try arrayEasyContainer.encode(easy, forKey: .values)
         
+        let easyNewValue = easy.map {FirebaseValue(value: $0) }
+        try arrayEasyContainer.encode(easyNewValue, forKey: .values)
         
         var mediumContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .medium)
         var mediumArrayEasyContainer = mediumContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
-        try mediumArrayEasyContainer.encode(medium, forKey: .values)
+        
+        let newValues = medium.map {FirebaseValue(value: $0) }
+        try mediumArrayEasyContainer.encode(newValues, forKey: .values)
         
         var hardContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .hard)
         var hardArrayEasyContainer = hardContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
-        try hardArrayEasyContainer.encode(hard, forKey: .values)
+        
+        let hardNewValues = hard.map { FirebaseValue(value: $0) }
+        try hardArrayEasyContainer.encode(hardNewValues, forKey: .values)
     }
 }

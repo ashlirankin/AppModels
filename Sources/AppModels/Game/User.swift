@@ -23,21 +23,15 @@ public struct User: Codable, Identifiable, Equatable, Sendable {
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let idContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
-        self.id = try idContainer.decode(String.self, forKey: .stringValue)
-        
-        let nameContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .name)
-        self.name = try nameContainer.decode(String.self, forKey: .stringValue)
+
+        self.id = try container.decode(FirebaseValue<String>.self, forKey: .id).value
+        self.name = try container.decode(FirebaseValue<String>.self, forKey: .name).value
     }
     
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        var nestedIdContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
-                                                        
-        try nestedIdContainer.encode(id, forKey: .stringValue)
         
-        var nestedNameContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .name)
-       
-        try nestedNameContainer.encode(self.name, forKey: .stringValue)
+        try container.encode(FirebaseValue<String>(value: id), forKey: .id)
+        try container.encode(FirebaseValue<String>(value: name), forKey: .name)
     }
 }

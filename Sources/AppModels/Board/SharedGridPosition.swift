@@ -23,21 +23,15 @@ public struct SharedGridPosition: Equatable, Hashable, Codable, Sendable {
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        let rowContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .row)
-        self.row = try rowContainer.decode(Int.self, forKey: .integerValue)
-        
-        let colContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .col)
-        self.col = try rowContainer.decode(Int.self, forKey: .integerValue)
+        self.row = try container.decode(FirebaseValue<Int>.self, forKey: .row).value
+        self.col = try container.decode(FirebaseValue<Int>.self, forKey: .col).value
     }
     
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        
-        var rowContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .row)
-        try rowContainer.encode(row, forKey: .integerValue)
-       
-        let colContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .col)
-        try rowContainer.encode(col, forKey: .integerValue)
+
+        try container.encode(FirebaseValue(value: row), forKey: .row)
+        try container.encode(FirebaseValue(value: col), forKey: .col)
     }
     
     public static func from(tuple: (Int, Int)) -> SharedGridPosition {

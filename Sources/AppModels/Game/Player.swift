@@ -21,7 +21,7 @@ public struct Player: Codable, Identifiable, Equatable, Sendable {
     public let isHost: Bool
     
     public var id: String {
-        user.id
+        return user.id
     }
     
     public init(user: User, joinedAt: Date, isHost: Bool) {
@@ -32,20 +32,17 @@ public struct Player: Codable, Identifiable, Equatable, Sendable {
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        
         self.user = try container.decode(User.self, forKey: .user)
-        self.joinedAt = try container.decode(Date.self, forKey: .joinedAt)
-        self.isHost = try container.decode(Bool.self, forKey: .isHost)
+        self.joinedAt = try container.decode(FirebaseValue<Date>.self, forKey: .joinedAt).value
+        self.isHost = try container.decode(FirebaseValue<Bool>.self, forKey: .isHost).value
     }
     
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
-        var joinedAtContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .joinedAt)
-        try joinedAtContainer.encode(joinedAt, forKey: .timestampValue)
-        
-        var isHostContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .isHost)
-        try isHostContainer.encode(isHost, forKey: .booleanValue)
-       
+        try container.encode(FirebaseValue(value: joinedAt), forKey: .joinedAt)
+        try container.encode(FirebaseValue(value: isHost), forKey: .isHost)
         try container.encode(self.user, forKey: .user)
     }
 }
