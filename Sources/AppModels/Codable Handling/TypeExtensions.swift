@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - String Firebase Support
 extension String: FirebaseCodable {
     
     public static var dataType: FirebaseDataTypes {
@@ -18,6 +19,7 @@ extension String: FirebaseCodable {
     }
 }
 
+// MARK: - Boolean Firebase Support
 extension Bool: FirebaseCodable {
     
     public static var dataType: FirebaseDataTypes {
@@ -29,6 +31,7 @@ extension Bool: FirebaseCodable {
     }
 }
 
+// MARK: - Numeric Firebase Support
 extension Int: FirebaseCodable {
     
     public static var dataType: FirebaseDataTypes {
@@ -37,16 +40,6 @@ extension Int: FirebaseCodable {
     
     public static var value: Int.Type {
         return Int.self
-    }
-}
-
-extension Date: FirebaseCodable {
-    public static var dataType: FirebaseDataTypes {
-        return .timestampValue
-    }
-    
-    public static var value: Date.Type {
-        return Date.self
     }
 }
 
@@ -60,6 +53,18 @@ extension Double: FirebaseCodable {
     }
 }
 
+// MARK: - Date Firebase Support
+extension Date: FirebaseCodable {
+    public static var dataType: FirebaseDataTypes {
+        return .timestampValue
+    }
+    
+    public static var value: Date.Type {
+        return Date.self
+    }
+}
+
+// MARK: - Collection Firebase Support
 extension Array where Element: FirebaseCodable {
     public static var dataType: FirebaseDataTypes {
         return .arrayValue
@@ -70,6 +75,7 @@ extension Array where Element: FirebaseCodable {
     }
 }
 
+// MARK: - Identifier Firebase Support
 extension UUID: FirebaseCodable {
     public static var dataType: FirebaseDataTypes {
         .stringValue

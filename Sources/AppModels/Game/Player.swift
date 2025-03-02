@@ -5,25 +5,41 @@
 //  Created by Ashli Rankin on 2/21/25.
 //
 
-
 import Foundation
 
+/// Represents a player in a multiplayer game session.
+/// Contains information about the player's user profile, when they joined, and their host status.
 public struct Player: Codable, Identifiable, Equatable, Sendable {
    
+    /// Keys used for encoding and decoding player data to/from Firebase.
     enum CodingKeys: CodingKey {
+        /// The user profile of the player
         case user
+        /// When the player joined the game
         case joinedAt
+        /// Whether this player is the host
         case isHost
     }
     
+    /// The user profile associated with this player.
     public let user: User
+    
+    /// The timestamp when this player joined the game.
     public let joinedAt: Date
+    
+    /// Indicates whether this player is the host of the game.
     public let isHost: Bool
     
+    /// The unique identifier for this player, derived from their user ID.
     public var id: String {
         return user.id
     }
     
+    /// Creates a new player instance.
+    /// - Parameters:
+    ///   - user: The user profile for this player
+    ///   - joinedAt: When the player joined the game
+    ///   - isHost: Whether this player is the host
     public init(user: User, joinedAt: Date, isHost: Bool) {
         self.user = user
         self.joinedAt = joinedAt

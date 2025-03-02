@@ -7,16 +7,29 @@
 
 import Foundation
 
+/// Represents a user in the word search game.
+/// This struct contains basic user information and implements Firebase-compatible encoding/decoding.
 public struct User: Codable, Identifiable, Equatable, Sendable {
+    
+    /// Keys used for encoding and decoding user data to/from Firebase.
     enum CodingKeys: CaseIterable, CodingKey {
+        /// The unique identifier for the user
         case id
+        /// The display name of the user
         case name
     }
     
+    /// The unique identifier for this user.
     public let id: String
+    
+    /// The display name of the user.
     public let name: String
     
-    public init (id: String, name: String) {
+    /// Creates a new user instance.
+    /// - Parameters:
+    ///   - id: The unique identifier for the user
+    ///   - name: The display name of the user
+    public init(id: String, name: String) {
         self.id = id
         self.name = name
     }

@@ -1,21 +1,44 @@
 import Foundation
 
+/// A collection of themed word lists for different difficulty levels.
+/// Each theme pack contains sets of words appropriate for easy, medium, and hard difficulty levels.
 public struct ThemePack: Sendable, Identifiable, Codable {
     
+    /// Keys used for encoding and decoding theme packs to/from Firebase.
     enum CodingKeys: CodingKey {
+        /// The unique identifier of the theme pack
         case id
+        /// The name of the theme
         case theme
+        /// The list of words for easy difficulty
         case easy
+        /// The list of words for medium difficulty
         case medium
+        /// The list of words for hard difficulty
         case hard
     }
     
+    /// A unique identifier for this theme pack.
     public let id: UUID
+    
+    /// The name or description of this theme.
     public let theme: String
+    
+    /// The list of words for easy difficulty puzzles.
     public let easy: [String]
+    
+    /// The list of words for medium difficulty puzzles.
     public let medium: [String]
+    
+    /// The list of words for hard difficulty puzzles.
     public let hard: [String]
     
+    /// Creates a new theme pack with the specified words for each difficulty level.
+    /// - Parameters:
+    ///   - theme: The name of the theme
+    ///   - easy: The list of words for easy difficulty
+    ///   - medium: The list of words for medium difficulty
+    ///   - hard: The list of words for hard difficulty
     public init(theme: String, easy: [String], medium: [String], hard: [String]) {
         self.id = UUID()
         self.theme = theme
