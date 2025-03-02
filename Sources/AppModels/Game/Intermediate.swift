@@ -5,7 +5,7 @@
 //  Created by Ashli Rankin on 2/17/25.
 //
 
-import SwiftUI
+import Foundation
 
 public struct Intermediate: Identifiable {
     public var words: [String]

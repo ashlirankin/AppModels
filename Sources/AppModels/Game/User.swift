@@ -8,7 +8,7 @@
 import Foundation
 
 public struct User: Codable, Identifiable, Equatable, Sendable {
-    enum CodingKeys: CodingKey {
+    enum CodingKeys: CaseIterable, CodingKey {
         case id
         case name
     }
@@ -32,10 +32,12 @@ public struct User: Codable, Identifiable, Equatable, Sendable {
     
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        var idContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
-        try idContainer.encode(id, forKey: .stringValue)
+        var nestedIdContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .id)
+                                                        
+        try nestedIdContainer.encode(id, forKey: .stringValue)
         
-        var nameContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .name)
-        try nameContainer.encode(self.name, forKey: .stringValue)
+        var nestedNameContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .name)
+       
+        try nestedNameContainer.encode(self.name, forKey: .stringValue)
     }
 }

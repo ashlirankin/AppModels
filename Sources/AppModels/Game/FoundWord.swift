@@ -6,7 +6,7 @@
 //
 
 
-import SwiftUI
+import Foundation
 
 public struct FoundWord: Codable, Hashable, Sendable {
     
@@ -19,21 +19,6 @@ public struct FoundWord: Codable, Hashable, Sendable {
     public let word: String
     public let positions: [SharedGridPosition]
     public let colorIndex: Int
-    
-    public var color: Color {
-        FoundWord.colors[colorIndex % FoundWord.colors.count]
-    }
-    
-    public static let colors: [Color] = [
-        .green,
-        .blue,
-        .purple,
-        .orange,
-        .pink,
-        .teal,
-        .yellow,
-        .mint
-    ]
     
     public init(word: String, positions: [SharedGridPosition], colorIndex: Int) {
         self.word = word

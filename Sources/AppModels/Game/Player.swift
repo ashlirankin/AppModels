@@ -33,10 +33,7 @@ public struct Player: Codable, Identifiable, Equatable, Sendable {
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.user = try container.decode(User.self, forKey: .user)
-        
-        let joinedAtContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .joinedAt)
-        self.joinedAt = try joinedAtContainer.decode(Date.self, forKey: .timestampValue)
-        
+        self.joinedAt = try container.decode(Date.self, forKey: .joinedAt)
         self.isHost = try container.decode(Bool.self, forKey: .isHost)
     }
     
@@ -46,7 +43,7 @@ public struct Player: Codable, Identifiable, Equatable, Sendable {
         var joinedAtContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .joinedAt)
         try joinedAtContainer.encode(joinedAt, forKey: .timestampValue)
         
-        var isHostContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .joinedAt)
+        var isHostContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .isHost)
         try isHostContainer.encode(isHost, forKey: .booleanValue)
        
         try container.encode(self.user, forKey: .user)

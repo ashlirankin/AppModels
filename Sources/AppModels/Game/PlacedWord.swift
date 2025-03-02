@@ -1,5 +1,4 @@
 import Foundation
-import SwiftUI
 
 public struct PlacedWord: Codable, Sendable {
     

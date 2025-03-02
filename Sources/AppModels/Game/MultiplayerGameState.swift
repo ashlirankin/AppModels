@@ -1,5 +1,4 @@
 import Foundation
-import SwiftUI
 
 public struct MultiplayerGameState: Codable {
     public enum GameStatus: String, Codable {
