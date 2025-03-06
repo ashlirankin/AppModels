@@ -16,6 +16,8 @@ public struct ThemePack: Sendable, Identifiable, Codable {
         case medium
         /// The list of words for hard difficulty
         case hard
+        
+        case category
     }
     
     /// A unique identifier for this theme pack.
@@ -23,6 +25,8 @@ public struct ThemePack: Sendable, Identifiable, Codable {
     
     /// The name or description of this theme.
     public let theme: String
+    
+    public let category: String
     
     /// The list of words for easy difficulty puzzles.
     public let easy: [String]
@@ -39,8 +43,9 @@ public struct ThemePack: Sendable, Identifiable, Codable {
     ///   - easy: The list of words for easy difficulty
     ///   - medium: The list of words for medium difficulty
     ///   - hard: The list of words for hard difficulty
-    public init(theme: String, easy: [String], medium: [String], hard: [String]) {
+    public init(theme: String, category: String, easy: [String], medium: [String], hard: [String]) {
         self.id = UUID()
+        self.category = category
         self.theme = theme
         self.easy = easy
         self.medium = medium
@@ -52,7 +57,7 @@ public struct ThemePack: Sendable, Identifiable, Codable {
     
         self.id = try container.decode(FirebaseValue<UUID>.self, forKey: .id).value
         self.theme = try container.decode(FirebaseValue<String>.self, forKey: .theme).value
-        
+        self.category = try container.decode(FirebaseValue<String>.self, forKey: .category).value
         let easyContainer = try container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .easy)
         let arrayContainer = try easyContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
         self.easy = try arrayContainer.decode([FirebaseValue<String>].self, forKey: .values).map(\.value)
@@ -71,7 +76,8 @@ public struct ThemePack: Sendable, Identifiable, Codable {
         
         try container.encode(FirebaseValue(value: id), forKey: .id)
         try container.encode(FirebaseValue(value: theme), forKey: .theme)
-       
+        try container.encode(FirebaseValue(value: category), forKey: .category)
+        
         var easyContainer = container.nestedContainer(keyedBy: FirebaseDataTypes.self, forKey: .easy)
         var arrayEasyContainer = easyContainer.nestedContainer(keyedBy: SupplementaryCodingKeys.self, forKey: .arrayValue)
         
